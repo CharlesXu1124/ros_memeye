@@ -7,6 +7,9 @@ import os
 import cv2
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge
+from transformers import TrOCRProcessor, VisionEncoderDecoderModel
+import requests
+from PIL import Image as PIL_Image
 
 
 
@@ -17,11 +20,16 @@ class RosMemeyeNode(Node):
         self.api_key = os.getenv("OPENAI_API_KEY")
         self.subscription = self.create_subscription(
             Image,
-            '/user_img',
+            'user_img',
             self.img_callback,
             10)
         self.bridge = CvBridge()
-        self.subscription
+        
+        self.processor = TrOCRProcessor.from_pretrained("microsoft/trocr-base-handwritten")
+        self.model = VisionEncoderDecoderModel.from_pretrained("microsoft/trocr-base-handwritten")
+        self.get_logger().info("============OCR Model Ready===========")
+        # prevent variable not used warning
+        
         
     def img_callback(self, Image):
         self.get_logger().info("image received")
