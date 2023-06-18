@@ -21,6 +21,8 @@
   <depend>transformers</depend>
   <depend>requests</depend>
   <depend>Pillow</depend>
+  <depend>paddle</depend>
+  <depend>paddleocr</depend>
 
 
   <test_depend>ament_lint_auto</test_depend>
