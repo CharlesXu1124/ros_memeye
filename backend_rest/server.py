@@ -41,8 +41,8 @@ def post_openai():
 
     gpt_response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
-        messages=[{"role": "system", "content": 'You are an expert in summarizing document and generating a short word list for someone learning foreign languages'},
-                      {"role": "user", "content": "generate a short word list containing 10 words from the following words, do not say anything else: " + str(data)}]
+        messages=[{"role": "system", "content": 'You are an expert in summarizing document and generating a example usage of words for someone learning foreign languages'},
+                      {"role": "user", "content": "generate a short sentence contains the object items in the following content, do not say anything else: " + str(data)}]
     )
     response = {'output': str(gpt_response["choices"][0]["message"]["content"])}
     return jsonify(response)
@@ -58,9 +58,11 @@ def post_falcon():
     print("request received")
 
     print(data)
-    response = query({
-        "inputs": "give me a list of 10 words without repetition that has strong correlation with the following words: cup, laptop, monitor, cell phone",
+    res = query({
+        "inputs": "give me a list of 10 words without repetition that has strong correlation with the following information: cup, tea, monitor",
     })
+    
+    response = {'output': str(res[0]["generated_text"])}
     return jsonify(response)
 
 if __name__ == '__main__':
